@@ -1,0 +1,66 @@
+1. ReplicaSet
+✅ What:
+A ReplicaSet is a Kubernetes object that ensures a specified number of replica Pods are running at any given time.
+If a pod crashes or is deleted, the ReplicaSet automatically creates a new one to maintain the desired state.
+
+🎯 Why:
+To provide high availability and fault tolerance by maintaining a fixed number of pod replicas.
+Ensures that your application is always running the desired number of instances.
+
+⏰ When to Use:
+When you want to manage pod replicas manually without rolling updates or version control (rare today).
+Mostly used internally by Deployments, not directly in modern use cases.
+
+✅ Use case: Legacy apps or when you want fine control over replica management without Deployment features.
+
+📦 2. Deployment
+✅ What:
+A Deployment is a higher-level abstraction that manages ReplicaSets and provides rolling updates, rollback, and versioning.
+It automatically creates and manages ReplicaSets for a given Pod template.
+
+🎯 Why:
+To automate and simplify updates to applications.
+Supports zero-downtime deployments, rolling updates, rollbacks, and declarative version control.
+
+⏰ When to Use:
+For stateless applications (like frontend services, APIs, etc.).
+When you want to deploy, scale, or update applications with ease and safety.
+
+✅ Use case: Hosting a frontend React/Node.js/Django app with automated rollout and rollback capabilities.
+
+🧲 3. StatefulSet
+✅ What:
+A StatefulSet is a Kubernetes controller used to manage stateful applications.
+Unlike Deployments, it maintains persistent identity (pod names), order, and stable storage for pods.
+
+🎯 Why:
+Required for apps that need:
+Stable network identity (e.g., pod-0, pod-1, etc.)
+Ordered, graceful deployment and scaling
+Persistent storage that sticks to a specific pod
+
+⏰ When to Use:
+For stateful applications
+
+4. What is a DaemonSet?
+A DaemonSet ensures that a specific Pod runs on all (or selected) nodes in a Kubernetes cluster.
+So, when new nodes are added to the cluster, Kubernetes automatically schedules the Pod defined in the DaemonSet to those new nodes.
+
+🔹 Why use a DaemonSet?
+DaemonSets are used when you need a Pod to run on every node, typically for background system-level tasks, such as:
+Log collection agents (e.g., Fluentd, Logstash)
+Monitoring agents (e.g., Prometheus node-exporter, Datadog agent)
+Security agents (e.g., Falco)
+Storage daemons (e.g., Ceph, Glusterd)
+Networking tools (e.g., CNI plugins, kube-proxy)
+These tasks are node-specific and not tied to just one instance running in the cluster — they must run on every node.
+
+🔹 When to use DaemonSet?
+Use a DaemonSet when:
+Situation	Use DaemonSet?
+You want one Pod per node (e.g., monitoring)	✅ Yes
+You want Pods to scale with node count automatically	✅ Yes
+You want control over node-specific processes	✅ Yes
+You want to run only a few Pods on selected nodes (using nodeSelector or affinity)	✅ Yes
+You want to run multiple replicas of a stateless or stateful app	❌ Use Deployment or StatefulSet
+You want to manage scaling manually	❌ Use Deployment
