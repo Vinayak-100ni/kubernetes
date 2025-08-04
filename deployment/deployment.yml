@@ -10,6 +10,7 @@ spec:
    app: nginx 
  template:
   metadata:
+   name: nginx-dep-pod
    labels:  
     app: nginx
   spec:
