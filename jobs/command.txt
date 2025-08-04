@@ -1,0 +1,3 @@
+## for getting the log details of the job pod
+    kubectl logs pod/demo-job-hnvgx -n nginx
+ 
