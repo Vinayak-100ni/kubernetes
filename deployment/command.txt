@@ -1,2 +1,10 @@
-to scale up the pods in case the traffic in increases.
-    kubectl scale deployment/nginx-deployment -n nginx --replicas=5  [nginx-deployment = " pod name" | nginx = "namespace"]
+## to scale up the pods in case the traffic in increases.
+    kubectl scale deployment/nginx-deployment-pods -n nginx --replicas=5  [nginx-deployment-pods = " pod name" | nginx = "namespace"]
+
+## get more informations about pods we use command
+    kubectl get pods -n nginx -o wide
+
+## to change the version of the image we use the command 
+    kubectl set image deployment/nginx-deployment-pods -n nginx nginx=nginx:1.27.3
+                                                                  |                                                           
+                                                            (container name)
