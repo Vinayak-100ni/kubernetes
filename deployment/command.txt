@@ -1,0 +1,2 @@
+to scale up the pods in case the traffic in increases.
+    kubectl scale deployment/nginx-deployment -n nginx --replicas=5  [nginx-deployment = " pod name" | nginx = "namespace"]
