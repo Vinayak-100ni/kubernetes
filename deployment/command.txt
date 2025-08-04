@@ -8,3 +8,5 @@
     kubectl set image deployment/nginx-deployment-pods -n nginx nginx=nginx:1.27.3
                                                                   |                                                           
                                                             (container name)
+## if we need to delete all pods
+    kubectl delete -f deployment.yml
