@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: min-backup
+  namespace: nginx
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: backup-min
+        spec:
+          containers: 
+          - name: backup-container
+            image: busybox 
+            command:
+            - sh
+            - -c
+            - >
+              echo "Backup Started";
+              mkdir -p /backups &&  
+              mkdir -p /demo-volume &&
+              cp -r /demo-volume /backups &&
+              echo "Backup completed";
+            volumeMounts:
+            - name: datavolume
+              mountPath: /demo-volume
+            - name: backvolume
+              mountPath: /backups
+          restartPolicy: OnFailure
+          volumes:
+          - name: datavolume
+            hostPath:
+              path: /demo-volume
+              type: DirectoryOrCreate
+          - name: backvolume
+            hostPath:
+              path: /backups
+              type: DirectoryOrCreate
+
