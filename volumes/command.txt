@@ -1,0 +1,2 @@
+## to check persistent volumes 
+   kubectl get pv
