@@ -10,3 +10,6 @@
                                                             (container name)
 ## if we need to delete all pods
     kubectl delete -f deployment.yml
+
+## if we want to delete all the resource in an namespace the we use command 
+   kubectl delete -f namespace.yml  
