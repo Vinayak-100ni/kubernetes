@@ -2,3 +2,8 @@ connect port container to out side world [Forwards a port from your local machin
   ## sudo -E kubectl port-forward service/nginx-service -n nginx 81:80 --address=0.0.0.0 
                                                 |                |      
                             [service file metadata name]    [this port is for instance and we have to unable it in SG.]
+
+## expose ingress
+    kubectl get svc -n ingress-nginx [recheck this command]
+    kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 80:80 --address=0.0.0.0  [if not working]
+then use --->> sudo -E kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 80:80 --address=0.0.0.0
