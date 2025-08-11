@@ -1,0 +1,5 @@
+## to go inside the pod 
+   kubectl get pods -n mysql                             [for getting the name of the pod/container]
+   kubectl exec -it mysql-statefulset-0 -n mysql -- bash 
+                        |
+            [container name / pod name]
