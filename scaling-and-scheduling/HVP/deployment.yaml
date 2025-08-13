@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+ name: apache-deployment
+ namespace: apache
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   app: apache
+ template:
+  metadata:
+   name: apache-pod
+   labels:
+    app: apache
+  spec:
+   containers:
+   - name: apache-conatiner
+     image: httpd:latest
+     ports:
+     - containerPort: 80
+     resources:
+      requests:
+       cpu: 100m
+       memory: 120Mi
+      limits:
+       cpu: 200m
+       memory: 256Mi
