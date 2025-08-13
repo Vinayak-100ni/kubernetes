@@ -1,2 +1,5 @@
 forward port:
-  sudo -E kubectl port-forward service/apache-service -n apache 82:80 --address=0.0.0.0
+   -> sudo -E kubectl port-forward service/apache-service -n apache 82:80 --address=0.0.0.0
+      
+to lists all Horizontal Pod Autoscalers in the namespace and showing details like the target deployment, current CPU usage, desired replicas, and min/max pod counts we use command.
+   ->   kubectl get hpa -n apache
