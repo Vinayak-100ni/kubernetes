@@ -22,12 +22,15 @@ spec:
      - containerPort: 3306
      env:
      - name: MYSQL_ROOT_PASSWORD
-       value: root
+       valueFrom:
+        secretKeyRef:
+         name: mysql-secret # secret file name
+         key: MYSQL_ROOT_PASSWORD
        
      - name: MYSQL_DATABASE
        valueFrom:
         configMapKeyRef:
-         name: mysql-config-map [configMap file should have same name]  
+         name: mysql-config-map # [configMap file should have same name]  
          key: MYSQL_DATABASE
          
      volumeMounts:
