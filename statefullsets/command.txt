@@ -3,3 +3,13 @@
    kubectl exec -it mysql-statefulset-0 -n mysql -- bash 
                         |
             [container name / pod name]
+
+## create base64 value for secret file
+   echo "root" | base64
+
+## to delete all pods of statefulset 
+   kubectl delete statefulset mysql-statefulset -n mysql
+                                    |
+                            [statefulset name]
+
+## 
