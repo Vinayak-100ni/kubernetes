@@ -1,0 +1,2 @@
+forward port:
+  sudo -E kubectl port-forward service/apache-service -n apache 82:80 --address=0.0.0.0
