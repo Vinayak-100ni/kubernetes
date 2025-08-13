@@ -3,3 +3,31 @@ forward port:
       
 to lists all Horizontal Pod Autoscalers in the namespace and showing details like the target deployment, current CPU usage, desired replicas, and min/max pod counts we use command.
    ->   kubectl get hpa -n apache
+
+
+to test our hpa  we create an loadbalance checker.
+   "First install metrics-server:"
+   ->kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+   -> kubectl get deployment metrics-server -n kube-system
+
+
+   "edit the deployment and add required arguments."
+   ->kubectl edit deployment metrics-server -n kube-system
+
+
+   Find the containers:
+#containers:
+#- name: metrics-server
+#  image: registry.k8s.io/metrics-server/metrics-server:v0.7.1
+#  args:
+#    - --kubelet-insecure-tls
+#    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+#    - --metric-resolution=15s
+
+
+   then use this command
+   ->kubectl get pods -n kube-system | grep metrics-server
+   ->kubectl top pod -A
+   ->kubectl run -i --tty load-generator --image=busybox -n apache /bin/sh
+   ->while true; do wget -q -O- http://apache-service.apache.svc.cluster.local; done
+
