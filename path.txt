@@ -1,0 +1,27 @@
+1 Deployment
+      > deployment
+      > replicaSet
+2 Jobs
+      > job
+      > cronjob
+3 Service
+      > service
+      > ingress
+4 Volumes
+      > persistent-volume
+      > persistent-volume-claim
+      > deployment+volume
+5 statefulset
+      > configmap
+      > secrets
+      > statefulset
+6 scaling-and-scheduling
+      > ResourceQuota
+      > probe
+      > taint & toleration
+      > HPA (horizontal pod autoscaling)
+            - Pod Metrics watch
+            - loadgenerator for check HPA & VPA
+      > VPA
+7 role-base-access-control
+      > Role
