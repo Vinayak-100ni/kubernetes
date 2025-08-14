@@ -5,4 +5,4 @@ to check where an login in user perfom any task or not we can use the command
    -> kubectl auth can-i "command"  // kubectl auth can-i get pods -n apache
     
 to check the permissions of particular user created by service-account 
-   ->kubectl auth can-i get pods -n apache --as=apache-user
+   ->kubectl auth can-i get pods --as=apache-user -n apache
