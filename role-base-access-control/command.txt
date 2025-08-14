@@ -1,0 +1,5 @@
+to get the info which user is currently login.
+   -> kubectl auth whoami
+
+to check where an login in user perfom any task or not we can use the command
+  -> kubectl auth can-i "command"  // kubectl auth can-i get pods -n apache
