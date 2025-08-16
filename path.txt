@@ -25,3 +25,12 @@
       > VPA
 7 role-base-access-control
       > Role
+      > Role Binding
+      > Service-account (user create)
+8. helm
+      > command
+      > manage-multi-namespace
+
+9  initContainer & sidecar container
+
+10 Istio Service Mesh
