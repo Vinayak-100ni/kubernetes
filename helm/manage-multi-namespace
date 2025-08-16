@@ -1,0 +1,13 @@
+1. create helm chart
+   -> helm create apache-helm
+
+2. install helm for different namespace dev and test
+   -> helm install dev-apache ./apache-helm/ -n dev-apache --create-namespace
+   -> helm install test-apache ./apache-helm/ -n test-apache --create-namespace
+
+3. if we edit conif in any one namespace (like in test)
+   -> vi apache-helm/values.yaml  (change the values ex: increase replicas)
+   -> vi apache-helm/Chart.yaml  ( edit version )
+
+4 upgrade the config using upgrade command.
+   -> helm upgrade test-apache apache-helm/ -n test-apache
