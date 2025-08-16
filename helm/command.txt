@@ -1,0 +1,18 @@
+firstly install helm with the help of doc.
+
+ -> curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+ -> chmod 700 get_helm.sh
+ -> ./get_helm.sh
+
+to create / generate a new Helm chart
+  -> helm create apache-helm
+
+we can create an package of it
+  -> helm package apache-helm/
+
+to install that package we can use
+  -> helm install dev-apache apache-helm or helm install dev-apache apache-helm -n dev-apache --create-namespace
+
+to delete all the service that we created
+  -> helm uninstall dev-apache
+  
