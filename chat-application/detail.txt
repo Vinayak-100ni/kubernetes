@@ -1,0 +1,4 @@
+1. install minikube on local
+      -> minikube start --driver=docker
+
+2.
