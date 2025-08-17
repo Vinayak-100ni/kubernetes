@@ -1,4 +1,17 @@
 1. install minikube on local
+      -> curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      -> sudo install minikube-linux-amd64 /usr/local/bin/minikube
       -> minikube start --driver=docker
 
-2.
+2. know we upload our source code on intances
+      -> scp -i "C:\Users\hp\Downloads\k8s-key.pem" -r "C:\Users\hp\Desktop\chat-app-k8s" ubuntu@54.198.226.121:/home/ubuntu/
+                        |                                                |                              |            
+                  [key location]                               [source code location]         [public ip on instance]
+
+3. login on docker hub 
+      > push backend image 
+            -> cd chat-app-k8s/backend/
+            -> docker build -t vinayak100ni/chat-app-k8s-backend:latest .
+            -> docker push vinayak100ni/chat-app-k8s-backend:latest
+      > same for the frontend also.
+
