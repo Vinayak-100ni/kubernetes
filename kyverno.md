@@ -1,8 +1,8 @@
 https://github.com/kyverno/policies/tree/main/best-practices
 
 ## kubectl edit ClusterPolicy require-requests-limits  (use to edit the file which will be pulled from repo)
-                |               |
-              (kind)       (metadata - name )
+                            |               |
+                          (kind)       (metadata - name )
 
 # Enforce Automated k8s cluster security using kyverno policy generator and argocd
 
