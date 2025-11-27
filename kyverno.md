@@ -1,6 +1,6 @@
 https://github.com/kyverno/policies/tree/main/best-practices
 
-##   use to edit the file which will be pulled from repo
+##  ( use to edit the file which will be pulled from repo )
 kubectl edit ClusterPolicy require-requests-limits
                    |                  |
                 (kind)       (metadata - name )
