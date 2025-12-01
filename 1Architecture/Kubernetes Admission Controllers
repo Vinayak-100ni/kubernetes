@@ -1,0 +1,146 @@
+Here is a **simple but detailed `.md` (Markdown) file** you can directly copy and paste into your repo.
+I’ve included your image using its filename and explained the diagram in clear terms without naming any person.
+
+---
+
+````md
+# Kubernetes Admission Controllers – Diagram Explained
+
+![Admission Controllers Flow](Screenshot%202025-12-01%20151822.png)
+
+This diagram shows how **Kubernetes Admission Controllers** work when a request is sent to the API server to create, update, or delete a resource (like a Pod, Deployment, Service, etc).
+
+---
+
+## 1. API Request Starts Here
+
+A user or system sends a request using:
+- `kubectl`
+- CI/CD pipeline
+- Internal Kubernetes component
+
+The request first reaches the **API Handler**.
+
+Example:
+```bash
+kubectl apply -f deployment.yaml
+````
+
+This goes directly to:
+
+```
+API Handler ➜ Authentication ➜ Authorization
+```
+
+---
+
+## 2. Authentication & Authorization
+
+At this stage Kubernetes checks:
+
+* **Authentication**: Who is making the request?
+* **Authorization**: Is this user allowed to do this action?
+
+If either fails, the request is rejected immediately.
+
+✅ If it passes → it moves to Admission Controllers
+
+---
+
+## 3. Mutating Admission Controller (Can MODIFY request)
+
+This controller can **change the request** before it is saved.
+
+Example uses:
+
+* Inject sidecar containers (Istio/Linkerd)
+* Add default labels
+* Add resource limits
+* Modify image tags
+
+It works using a **Mutating Webhook**.
+
+Flow:
+
+```
+Request → Mutating Controller → (Optional changes)
+```
+
+After modification, the request continues to validation.
+
+---
+
+## 4. Validating Admission Controller (Can ALLOW or DENY)
+
+This controller **does NOT modify the request**.
+It only checks if the request is valid according to rules.
+
+Example checks:
+
+* Required labels present
+* No privileged containers
+* Image from allowed registry
+* CPU & memory limits set
+
+It uses a **Validating Webhook**.
+
+Result:
+
+```text
+✅ Valid → Continue
+❌ Invalid → Request rejected
+```
+
+---
+
+## 5. Object Schema Validation
+
+Kubernetes checks if the YAML format and fields are correct.
+
+Example:
+
+* `apiVersion` is correct
+* Required fields exist
+* Values are in correct format
+
+If there is any syntax or schema error → Request is rejected.
+
+---
+
+## 6. etcd – Final Storage
+
+If everything passes successfully, the request is stored permanently in **etcd**.
+
+This is Kubernetes' main database.
+
+Flow summary:
+
+```
+Request → Auth → Mutate → Validate → Schema Check → Stored in etcd ✅
+```
+
+Only after this the object actually exists in the cluster.
+
+---
+
+## Complete Flow in Simple Words
+
+1. You apply a YAML
+2. Kubernetes checks who you are
+3. Kubernetes checks if you are allowed
+4. Request may be modified (Mutating Webhook)
+5. Request is checked for rules (Validating Webhook)
+6. YAML structure is validated
+7. Object is stored in etcd
+
+---
+
+## Why this matters in GitOps / ArgoCD
+
+In ArgoCD, when apps show **Degraded**:
+
+* Admission controllers may be blocking resources
+* Validation is failing
+* Webhooks may be misconfigured
+
+
