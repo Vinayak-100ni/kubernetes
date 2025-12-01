@@ -1,6 +1,6 @@
 # 🌐 Kubernetes Architecture – Simple Explanation
 
-![Kubernetes Architecture Diagram](../Screenshot%202025-12-01%20150407.png)
+![Kubernetes Architecture Diagram](./Screenshot%202025-12-01%20150407.png)
 
 A Kubernetes cluster is made of **two main parts**:
 
