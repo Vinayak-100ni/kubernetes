@@ -1,0 +1,183 @@
+
+# etcd in Kubernetes – Diagram Explained
+
+![etcd Architecture](Screenshot%202025-12-01%20152243.png)
+
+This diagram explains **what etcd is** and **how it works inside the Kubernetes Control Plane**.
+
+
+## 1. What is etcd?
+
+**etcd is a distributed key-value database** used by Kubernetes to store the **entire cluster state**.
+
+Everything in Kubernetes is saved in etcd, including:
+- Pods
+- Nodes
+- ConfigMaps
+- Secrets
+- Deployments
+- Service Accounts
+- Roles & Permissions
+
+If it’s in your cluster — it’s in etcd.
+
+---
+
+## 2. Where is etcd located?
+
+The diagram shows etcd inside the **Control Plane**.
+
+It connects directly to:
+```
+
+kube-api-server
+
+````
+
+Only the API Server can:
+✅ Read from etcd  
+✅ Write to etcd  
+
+Users, controllers, or nodes **cannot access etcd directly**.
+
+---
+
+## 3. Distributed Key-Value Store
+
+etcd is:
+
+- **Distributed** → Runs on multiple nodes for reliability
+- **Key-Value** → Data is stored as key-value pairs
+- **Consistent** → Uses consensus to avoid data corruption
+
+Example structure (simplified):
+
+```text
+/pods/nginx = {pod object data}
+/nodes/node1 = {node info}
+````
+
+---
+
+## 4. WAL (Write-Ahead Log)
+
+WAL = **Write Ahead Log**
+
+Before anything is saved to the database:
+
+1. It is written to the WAL file
+2. Then it is committed to the database
+
+This protects data from corruption during:
+
+* Crashes
+* Restarts
+* Power failures
+
+This is one of the main reasons etcd is reliable.
+
+---
+
+## 5. Raft Consensus
+
+etcd uses **Raft Consensus Algorithm**.
+
+This means:
+
+* Multiple etcd nodes are connected in a **cluster**
+* One node becomes the **leader**
+* Others are **followers**
+* Data is accepted only when **most nodes agree**
+
+This ensures:
+✅ Strong consistency
+✅ No split-brain data
+✅ High availability
+
+---
+
+## 6. Data is NOT Encrypted by Default
+
+The diagram mentions:
+
+```
+Data not Encrypted
+```
+
+By default, etcd stores data as **plain text** on disk.
+
+This is why:
+
+* Encryption at rest should be enabled
+* Secure access is critical
+* etcd backups must be protected
+
+This is especially important when storing **Secrets**.
+
+---
+
+## 7. Protobuf Format
+
+Data is stored in **Protobuf (Protocol Buffers) format**.
+
+Benefits:
+
+* Faster than JSON
+* Smaller size
+* Efficient for machines
+
+Kubernetes uses Protobuf to store data efficiently in etcd.
+
+---
+
+## 8. Connection to API Server
+
+The diagram shows a dotted line between:
+
+```
+etcd  ⇄  kube-api-server
+```
+
+Inside kube-api-server there are:
+
+* Authentication
+* Authorization
+* Admission Control
+
+Flow:
+
+```
+Request → kube-api-server → (stores data in etcd)
+```
+
+No object exists in the cluster unless it is stored in etcd.
+
+---
+
+## In Very Simple Terms
+
+Think of etcd as:
+
+🧠 The **brain** of your Kubernetes cluster
+📦 The **database** of your cluster
+✅ The **source of truth**
+
+If etcd goes down, the cluster can’t function properly.
+
+---
+
+## Why this matters for ArgoCD & GitOps
+
+When ArgoCD applies a file:
+
+```
+Git repo → ArgoCD → API Server → Admission → etcd
+```
+
+If etcd has issues:
+
+* Apps show **Degraded**
+* Sync fails
+* Objects don’t create/update
+
+
