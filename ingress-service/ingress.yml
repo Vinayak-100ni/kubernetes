@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: ingress-kubecloud
+ annotations:
+  nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+ rules:
+ - host: "url"
+   http:
+    paths:
+    - path: /
+      pathType: Prefix
+      backend:
+       service: 
+        name: online-shop-service
+        port:
+         number: 3000
