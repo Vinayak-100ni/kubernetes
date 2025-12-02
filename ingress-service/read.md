@@ -4,3 +4,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 ##### we can check service with this command
 kubectl get service -o wide -w -n ingress-nginx
 
+#### facing any issue firsly check 
+ kubectl logs -n ingress-nginx -l app.kubernetes.io/name=ingress-nginx
+
