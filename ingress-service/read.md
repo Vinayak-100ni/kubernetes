@@ -9,4 +9,6 @@ kubectl get service -o wide -w -n ingress-nginx
 
 1. adding certificate
   a. kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+  b. create clusterIssuer yml file
+  c. then create certificate yml file
 
