@@ -17,4 +17,27 @@
 
 ```etcd.yaml  kube-apiserver.yaml  kube-controller-manager.yaml  kube-scheduler.yaml```
 
-```controlplane:/etc/kubernetes/manifests$ cat kube-apiserver.yaml ```
+```controlplane:/etc/kubernetes/manifests$ cat kube-apiserver.yaml ``` as AuthN and AuthZ will be done at Kube-apiServer 
+10. User / Pod / Node
+       |
+       |  (kubectl / kubelet / token)
+       v
+ +------------------+
+ |  kube-apiserver |
+ +------------------+
+       |
+       | 1. AUTHENTICATION (Who are you?)
+       v
+ +------------------+
+ | User is verified|
+ +------------------+
+       |
+       | 2. AUTHORIZATION (What can you do?)
+       v
+ +---------------------------------------------+
+ | Node  | RBAC | ABAC | Webhook | Allow/Deny|
+ +---------------------------------------------+
+       |
+       v
+ ✅ ALLOWED   or   ❌ FORBIDDEN
+
