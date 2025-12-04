@@ -56,7 +56,7 @@ RBAC decides:
 * In which namespace
 * And which actions (get, list, create, delete…)
 
-RBAC works using:
+RBAC works using: [explain with yml file](Four%20Kubernetes%20RBAC.md)
 
 | Object             | Purpose                    |
 | ------------------ | -------------------------- |
