@@ -20,7 +20,7 @@
 ```controlplane:/etc/kubernetes/manifests$ cat kube-apiserver.yaml ``` as AuthN and AuthZ will be done at Kube-apiServer 
 
 10.# Kubernetes Authentication & Authorization Flow
-
+```bash
 User / Pod / Node
 |
 | (kubectl / kubelet / token)
@@ -43,6 +43,6 @@ v
 |
 v
 ✅ ALLOWED ❌ FORBIDDEN
-
+```
 
 
