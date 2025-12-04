@@ -18,6 +18,7 @@
 ```etcd.yaml  kube-apiserver.yaml  kube-controller-manager.yaml  kube-scheduler.yaml```
 
 ```controlplane:/etc/kubernetes/manifests$ cat kube-apiserver.yaml ``` as AuthN and AuthZ will be done at Kube-apiServer 
+
 10.# Kubernetes Authentication & Authorization Flow
 
 User / Pod / Node
