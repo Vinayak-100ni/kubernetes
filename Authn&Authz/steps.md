@@ -22,7 +22,7 @@
 10. # Kubernetes Authentication & Authorization Flow
 
 📄 View here:
-[Open Kubernetes authorization modes](./Kubernetes authorization modes.md)
+[Open Kubernetes authorization modes](Kubernetes%20authorization%20modes.md)
 
 ```bash
 User / Pod / Node
