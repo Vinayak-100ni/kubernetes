@@ -10,3 +10,7 @@
      Cluster:   day-9-and-10  
      User:     twp-day9  
      Namespace: (not set → default)
+6. now we can switch context with the command ``` kubectl config use-context twp-day9-user-context ```
+7. verify using command ```kubectl config current-context``` [twp-day9-user-context]
+8. now we have to provide permissions to context ```AuthN done```
+9. 
