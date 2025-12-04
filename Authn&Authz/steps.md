@@ -6,11 +6,7 @@
 5. now we set context ```kubectl config set-context twp-day9-user-context --cluster=day-9-and-10 --user=twp-day9 ```
 
    Context name:  twp-day9-user-context
-
- Connects:
-   
-   Cluster:   day-9-and-10
-   
-   User:     twp-day9
-   
-   Namespace: (not set → default)
+    Connects:
+     Cluster:   day-9-and-10  
+     User:     twp-day9  
+     Namespace: (not set → default)
