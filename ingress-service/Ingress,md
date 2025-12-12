@@ -1,0 +1,279 @@
+# 1️⃣ **What is Ingress?**
+
+Ingress is a **Kubernetes API object** that manages **external access** to services inside the cluster, typically using **HTTP / HTTPS**.
+
+It allows you to:
+
+* Expose multiple services using **one external IP**
+* Route traffic based on **hostnames** or **paths**
+* Terminate **TLS/SSL** at the edge
+* Apply central **routing rules** and **security policies**
+
+👉 Without Ingress, you would need **one LoadBalancer per service**, increasing cost and complexity.
+
+---
+
+# 2️⃣ **Why Do We Need Ingress?**
+
+### 🔹 Without Ingress
+
+* Every service <NodePort> or <LoadBalancer> costs money
+* Hard to manage routing for many microservices
+* TLS/SSL must be configured separately for each service
+* No central request control or monitoring
+
+### 🔹 With Ingress
+
+* ✔ One single LoadBalancer for all apps
+* ✔ Host/path-based routing
+* ✔ TLS termination at one place
+* ✔ URL rewrites, redirects, rate limits
+* ✔ Integrates with cert-manager for auto SSL
+* ✔ Can apply WAF/security/logging at a single point
+
+---
+
+# 3️⃣ **Ingress Components**
+
+Understanding components will help you debug and design better:
+
+---
+
+## 🧱 **1. Ingress Resource**
+
+YAML object containing routing rules.
+
+Example:
+
+```yaml
+kind: Ingress
+metadata:
+  name: myapp-ingress
+spec:
+  rules:
+    - host: app.example.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: myapp-service
+              port:
+                number: 80
+```
+
+---
+
+## 🧱 **2. Ingress Controller (Mandatory)**
+
+Ingress **does not work alone**.
+
+You must install an **Ingress Controller**.
+
+Examples:
+
+* **Nginx Ingress Controller** (most common)
+* **Traefik**
+* **HAProxy**
+* **Istio Gateway** (service mesh)
+* **AWS ALB Ingress Controller**
+* **GKE Ingress Controller**
+
+The controller watches Ingress objects and configures loadbalancer rules.
+
+---
+
+## 🧱 **3. LoadBalancer**
+
+* Created by the Ingress Controller
+* Accepts external traffic
+* Sends it to Nginx → routes → service → pod
+
+---
+
+## 🧱 **4. Backend Kubernetes Services**
+
+Ingress forwards to:
+
+* ClusterIP services only
+
+Example:
+
+```
+Internet → LB → Ingress Controller → Ingress Rules → Service → Pod
+```
+
+---
+
+# 4️⃣ **How Ingress Works (Flow)**
+
+```
+Client Browser → Ingress LoadBalancer → Ingress Controller (NGINX) 
+→ Ingress rules → K8s service → Pod
+```
+
+### Detailed Flow:
+
+1️⃣ User hits `https://app.example.com`
+2️⃣ LoadBalancer receives the request
+3️⃣ Sends to Nginx Ingress Controller
+4️⃣ Controller checks Ingress rules
+5️⃣ Matches hostname/path
+6️⃣ Forwards traffic to service
+7️⃣ Request goes to the appropriate pod
+
+---
+
+# 5️⃣ **How to Setup NGINX Ingress Controller (Production Grade)**
+
+You can install using **Helm** (recommended) or manifest.
+
+---
+
+## 🛠 **Install Nginx Ingress Controller (Helm)**
+
+### Step 1 — Add Helm repo
+
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+```
+
+### Step 2 — Install controller
+
+```bash
+helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace
+```
+
+### Step 3 — Verify installation
+
+```bash
+kubectl get pods -n ingress-nginx
+kubectl get svc -n ingress-nginx
+```
+
+Expected:
+
+* A **LoadBalancer service**
+* Nginx controller pods running
+
+---
+
+# 6️⃣ **Create Ingress Example (Path-Based Routing)**
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: mysite.com
+    http:
+      paths:
+      - path: /app1
+        pathType: Prefix
+        backend:
+          service:
+            name: app1-service
+            port:
+              number: 80
+      - path: /app2
+        pathType: Prefix
+        backend:
+          service:
+            name: app2-service
+            port:
+              number: 80
+```
+
+---
+
+# 7️⃣ **TLS/HTTPS with Ingress (Auto SSL)**
+
+Requires cert-manager.
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure-app
+spec:
+  tls:
+  - hosts:
+    - secure.example.com
+    secretName: tls-secret
+  rules:
+    - host: secure.example.com
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: secure-service
+              port:
+                number: 80
+```
+
+---
+
+# 8️⃣ **How Ingress Works With Cert-Manager (Auto SSL)**
+
+```
+Ingress → Certificate → Issuer → Let's Encrypt → TLS Secret Auto Generated
+```
+
+---
+
+# 9️⃣ **Ingress in Production — Best Practices**
+
+| Feature       | Recommendation                      |
+| ------------- | ----------------------------------- |
+| Controller    | Nginx or Cloud Provider Ingress     |
+| SSL           | Use Cert-Manager with Let’s Encrypt |
+| Load Balancer | Use managed LB                      |
+| Routing       | Host-based for microservices        |
+| Security      | Enable WAF rules + rate limits      |
+| Monitoring    | Use Prometheus + Grafana            |
+
+---
+
+# 🔟 **When to Use Ingress vs. Service vs. LoadBalancer**
+
+| Need                                                     | Use             |
+| -------------------------------------------------------- | --------------- |
+| Internal service communication                           | ClusterIP       |
+| Expose service without routing rules                     | LoadBalancer    |
+| Expose many services using one entrypoint + HTTP routing | Ingress         |
+| Service mesh features (mTLS, retries, traffic shaping)   | Istio / Linkerd |
+
+---
+
+# 1️⃣1️⃣ **Ingress vs Gateway API (Future of K8s)**
+
+Gateway API is replacing Ingress in long term.
+
+Ingress = old
+Gateway API = modern, flexible, mesh-compatible, multi-tenant
+
+---
+
+# 🎯 **Summary**
+
+**Ingress is essential** for:
+
+* Efficient routing
+* Cost reduction
+* TLS management
+* Clean architecture
+* Centralized control & security
+
+You need:
+
+* Ingress Resource
+* Ingress Controller
+* LoadBalancer
+* Backend services
