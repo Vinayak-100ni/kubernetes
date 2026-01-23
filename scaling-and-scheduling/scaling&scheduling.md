@@ -19,17 +19,15 @@ A "probe" is a way for Kubernetes to test the health or status of a container by
 
 ### probing mechanisms 
 
-         |               exec              |         http                |       TCP
+    |         |               exec              |         http                |       TCP
+     probe    | exec:                           |  httpGet:                   |   tcpSocket:
+                command:                            path: /health                 port: 8080
+                 - mongo                             port: 8080
+                 - --eval
+                 - "db.adminCommand('ping')"
+    success  |             0                   |   200-399                   |  if port accepts traffic
 
-probe    | exec:                           |  httpGet:                   |   tcpSocket:
-            command:                            path: /health                 port: 8080
-            - mongo                             port: 8080
-            - --eval
-            - "db.adminCommand('ping')"
-
-success  |             0                   |   200-399                   |  if port accepts traffic
-
-failure  |             1                   |  other than 200-399         | if port can't accept traffic
+    failure  |             1                   |  other than 200-399         | if port can't accept traffic
 
 ### probing customization:
 
