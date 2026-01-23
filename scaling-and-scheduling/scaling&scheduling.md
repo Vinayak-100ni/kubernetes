@@ -31,11 +31,11 @@ A "probe" is a way for Kubernetes to test the health or status of a container by
 
 ### probing customization:
 
-                          |           purpose                                         | default value
-initialDelaySeconds       | Delay to run the probe initially                          | 0 sec
-periodSeconds             | How frequently probe should execute after initial delay   | 10 sec
-timeoutSeconds            | Timeout period to mark as failure                         | 1 sec
-failure/successThreshold  | how many times to retry in case of failure                | 3 times
+                              |           purpose                                         | default value
+    initialDelaySeconds       | Delay to run the probe initially                          | 0 sec
+    periodSeconds             | How frequently probe should execute after initial delay   | 10 sec
+    timeoutSeconds            | Timeout period to mark as failure                         | 1 sec
+    failure/successThreshold  | how many times to retry in case of failure                | 3 times
 
 
 "A taint is like putting a ‘Do Not Enter’ sign on a Kubernetes node."
