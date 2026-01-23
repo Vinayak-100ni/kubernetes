@@ -17,7 +17,7 @@ A "probe" is a way for Kubernetes to test the health or status of a container by
 | Readiness Probe | Is the container ready to accept traffic? | Pod is "removed from Service" until it’s ready again   | App is running but needs **warm-up time** before handling requests   | `/ready` endpoint after DB connection established  |
 | Startup Probe   | Has the app finished starting?            | If it fails, Kubernetes "kills and restarts" the pod   | Slow-starting apps like large Java/Spring Boot apps                  | Check `/startup` before running liveness/readiness |
 
-###probing mechanisms 
+### probing mechanisms 
 
          |               exec              |         http                |       TCP
 
@@ -31,7 +31,7 @@ success  |             0                   |   200-399                   |  if p
 
 failure  |             1                   |  other than 200-399         | if port can't accept traffic
 
-###probing customization:
+### probing customization:
 
                           |           purpose                                         | default value
 initialDelaySeconds       | Delay to run the probe initially                          | 0 sec
